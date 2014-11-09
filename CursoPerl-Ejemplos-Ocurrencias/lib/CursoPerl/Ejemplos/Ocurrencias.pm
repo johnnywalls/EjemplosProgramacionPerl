@@ -77,8 +77,6 @@ sub contar_ocurrencias {
   my $archivo = $opciones{ARCHIVO};
   my $repeticiones = $opciones{REPETICIONES};
   my @buscar = @{ $opciones{BUSCAR} } if exists $opciones{BUSCAR} && ref($opciones{BUSCAR}) eq 'ARRAY';
-use Data::Dumper;
-say Dumper \@buscar;
   my $debug = $opciones{DEBUG};
 
   # tenemos acceso a la rutina GetOptions exportada de manera predeterminada
