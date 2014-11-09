@@ -79,14 +79,6 @@ sub contar_ocurrencias {
   my @buscar = @{ $opciones{BUSCAR} } if exists $opciones{BUSCAR} && ref($opciones{BUSCAR}) eq 'ARRAY';
   my $debug = $opciones{DEBUG};
 
-  # tenemos acceso a la rutina GetOptions exportada de manera predeterminada
-  # por Getopt::Long
-  GetOptions ("repeticiones=i" => \$repeticiones,  # entero
-              "archivo=s"      => \$archivo,       # cadena
-              "buscar=s"       => \@buscar,        # lista de cadenas
-              "debug"          => \$debug)         # flag/logico
-  or die("Error en los parámetros del comando\n");
-
   my $nombre_archivo = basename( $archivo );
   my $directorio_archivo = dirname( $archivo );
 

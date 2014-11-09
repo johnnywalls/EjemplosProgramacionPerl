@@ -42,7 +42,7 @@ while (<ARCHIVO>) {
   my @palabras = ( $_ =~ m/(\p{IsAlpha}+)/g );
   $npalabras = scalar @palabras if $debug;
   foreach my $palabra (@palabras) {
-    if ( scalar(@buscar) == 0 || $palabra ~~ @buscar ) {
+    if ( scalar(@buscar) == 0 || grep(/^$palabra$/, @buscar) ) {
       $ocurrencias{ fc($palabra) }++;
     }
   }
