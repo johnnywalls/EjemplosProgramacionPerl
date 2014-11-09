@@ -8,12 +8,6 @@ use v5.16;
 package Springfield::Personaje {
   use Moose;
   use Graphics::Color::RGB;
-  # podriamos usar aqui otro modulo de CPAN, pero vale para el ejemplo
-  my $colores = {
-    amarillo => {r => 1, g => 1, b => 0 },
-    azul => {r => 0, g => 0, b => 0 },
-    rojo => {r => 1, g => 0, b => 0 },
-  };
 
   has "nombre" => (
     is        => "rw",
@@ -45,6 +39,12 @@ package Springfield::Personaje {
 
   sub _build_color {
     my $self = shift;
+    # podriamos usar aqui otro modulo de CPAN, pero vale para el ejemplo
+    my $colores = {
+      amarillo => {r => 1, g => 1, b => 0 },
+      azul => {r => 0, g => 0, b => 0 },
+      rojo => {r => 1, g => 0, b => 0 },
+    };
     my $color = $colores->{ $self->color } if exists $colores->{ $self->color };
     die "Color desconocido" unless $color;
     return Graphics::Color::RGB->new( { r => $color->{r}, g => $color->{g}, b => $color->{b} } );
@@ -70,3 +70,12 @@ my $devil = Springfield::Personaje->new(
 say "Mi nombre es " . $devil->nombre_completo;
 say "Soy de color " . $devil->color . ", en hexadecimal: " . $devil->color_hex;
 say "Estoy en el show desde " . $devil->año_aparicion;
+
+my $pepe = Springfield::Personaje->new(
+  nombre => 'Pepe',
+  color => 'verde',
+); # no tenemos error aún, ya que usamos la construcción "perezosa" (lazy) de color
+
+say "Mi nombre es " . $pepe->nombre_completo;
+say "Soy de color " . $pepe->color . ", en hexadecimal: " . $pepe->color_hex;
+
