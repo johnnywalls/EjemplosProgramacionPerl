@@ -71,5 +71,5 @@ my $n;
 foreach (@objetos) {
   say ++$n;
   say "Me llamo " . $_->nombre . " y soy un " . $_->especie if $_->isa('Animal');
-  $_->can('volar') ? $_->volar() : say 'No puedo volar';
+  $_->does('PuedeVolar') ? $_->volar() : say 'No puedo volar';
 }
