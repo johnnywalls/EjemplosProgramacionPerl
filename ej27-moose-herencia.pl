@@ -41,6 +41,12 @@ package Springfield::Invitado {
       nombres_capitulos => "join",
     },
   );
+
+  override nombre_completo => sub {
+    my $self = shift;
+    die "Me falta el nombre" unless $self->nombre;
+    super();
+  };
 }
 
 my $kim = Springfield::Invitado->new( nombre => 'Kim', apellido => 'Bassinger' );
@@ -58,3 +64,6 @@ $sh->agregar_capitulos(
 say $kim->nombre_completo . " aparece en " . $kim->capitulos->[0];
 say $sh->nombre_completo . " aparece en " . $sh->total_capitulos . ':';
 say $sh->nombres_capitulos(', ');
+
+my $otro = Springfield::Invitado->new( apellido => 'Baldwin' );
+say $otro->nombre_completo;
