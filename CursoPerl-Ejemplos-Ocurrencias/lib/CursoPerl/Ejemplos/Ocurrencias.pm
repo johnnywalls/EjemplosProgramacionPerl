@@ -77,6 +77,8 @@ sub contar_ocurrencias {
   my $archivo = $opciones{ARCHIVO};
   my $repeticiones = $opciones{REPETICIONES};
   my @buscar = @{ $opciones{BUSCAR} } if exists $opciones{BUSCAR} && ref($opciones{BUSCAR}) eq 'ARRAY';
+use Data::Dumper;
+say Dumper \@buscar;
   my $debug = $opciones{DEBUG};
 
   # tenemos acceso a la rutina GetOptions exportada de manera predeterminada
@@ -101,7 +103,7 @@ sub contar_ocurrencias {
     my @palabras = ( $_ =~ m/(\p{IsAlpha}+)/g );
     $npalabras = scalar @palabras if $debug;
     foreach my $palabra (@palabras) {
-      if ( scalar(@buscar) == 0 || $palabra ~~ @buscar ) {
+      if ( scalar(@buscar) == 0 || grep(/^$palabra$/, @buscar) ) {
         $ocurrencias{ fc($palabra) }++;
       }
     }
