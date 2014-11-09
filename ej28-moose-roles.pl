@@ -18,6 +18,19 @@ package PuedeVolar {
   };
 }
 
+package VuelaConCombustible {
+  use Moose::Role;
+
+  has "nivel_combustible", is => 'rw', isa => 'Str';
+  requires qw( volar );
+
+  before 'volar' => sub {
+    my $self = shift;
+    say "Revisar combustible!!!" if ( !$self->nivel_combustible || $self->nivel_combustible ne 'Alto' );
+  };
+
+}
+
 package Animal {
   use Moose;
   has "especie", is => 'ro', isa => 'Str', required => 1;
@@ -46,7 +59,7 @@ package Aeronave {
   has "metodo_propulsion", is => 'rw', isa => 'Str', required => 1;
   has "capacidad_pasajeros", is => 'rw', isa => 'Int';
 
-  with 'PuedeVolar';
+  with 'PuedeVolar', 'VuelaConCombustible';
 
   sub volar {
     my $self = shift;
