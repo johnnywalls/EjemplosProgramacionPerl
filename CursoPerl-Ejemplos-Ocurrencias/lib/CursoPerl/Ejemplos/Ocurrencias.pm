@@ -163,6 +163,7 @@ L<http://search.cpan.org/dist/CursoPerl-Ejemplos-Ocurrencias/>
 
 =head1 ACKNOWLEDGEMENTS
 
+Gracias a Module::Starter
 
 =head1 LICENSE AND COPYRIGHT
 
