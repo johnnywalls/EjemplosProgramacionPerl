@@ -37,4 +37,3 @@ say "Primeras 10 películas en MySQL: " . Dumper $ar_pg;
 
 $dbh_mysql->disconnect;
 
-say "Drivers instalados: " . Dumper( { DBI->installed_drivers } );
