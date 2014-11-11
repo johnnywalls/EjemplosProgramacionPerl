@@ -7,10 +7,7 @@ use v5.10;
 
 use Data::Dumper;
 
-# usamos el módulo DBI y drivers requeridos
 use DBI;
-use DBD::Pg;
-use DBD::mysql;
 
 say "Drivers disponibles: " . Dumper( [ DBI->available_drivers ] );
 
@@ -19,7 +16,8 @@ my $password = 'curso'; # según el SMBD, podría utilizarse un archivo separado
                         # para la contraseña y no necesitarla en el programa
 
 ## ejemplo con PostgreSQL
-my $dbh_pg = DBI->connect("dbi:Pg:dbname=dvdrental;host=127.0.0.1", $usuario, $password, { pg_enable_utf8 => 1 });
+my $dbh_pg = DBI->connect("dbi:Pg:dbname=dvdrental;host=127.0.0.1", $usuario, $password, { pg_enable_utf8 => 1 })
+or die "No se pudo conectar a PostgreSQL: " . $DBI::errstr;
 
 my $ar_pg = $dbh_pg->selectall_arrayref('SELECT film_id, title FROM film LIMIT 10');
 
@@ -29,7 +27,8 @@ $dbh_pg->disconnect;
 
 ## ejemplo con MySQL
 
-my $dbh_mysql = DBI->connect("dbi:mysql:database=sakila;host=127.0.0.1", $usuario, $password, { mysql_enable_utf8 => 1 });
+my $dbh_mysql = DBI->connect("dbi:mysql:database=sakila;host=127.0.0.1", $usuario, $password, { mysql_enable_utf8 => 1 })
+or die "No se pudo conectar a MySQL: " . $DBI::errstr;
 
 my $ar_mysql = $dbh_mysql->selectall_arrayref('SELECT film_id, title FROM film LIMIT 10');
 
