@@ -35,24 +35,26 @@ my $email_cliente_actualizar = 'mary@example.com';
 my ($alquiler, $pago, $cliente);
 
 try {
-  my $alquiler = $schema->resultset('Rental')->create({
-    rental_date => $fecha_alquiler,
-    inventory_id => $id_inventario,
-    customer_id => $id_cliente, 
-    staff_id => $id_empleado,
+  $schema->txn_do( sub {
+    my $alquiler = $schema->resultset('Rental')->create({
+      rental_date => $fecha_alquiler,
+      inventory_id => $id_inventario,
+      customer_id => $id_cliente, 
+      staff_id => $id_empleado,
+    });
+    # podemos utilizar un objeto para crear otros relacionados,
+    # con esto, se utiliza automaticamente el id del alquiler
+    # recien insertado al crear el nuevo registro de pago
+    my $pago = $alquiler->add_to_payments({
+      customer_id => $id_cliente, 
+      staff_id => $id_empleado,
+      amount => $monto_pagar,
+      payment_date => $fecha_alquiler,
+    });
+    my $cliente = $alquiler->customer;
+    $cliente->email( $email_cliente_actualizar );
+    $cliente->update;
   });
-  # podemos utilizar un objeto para crear otros relacionados,
-  # con esto, se utiliza automaticamente el id del alquiler
-  # recien insertado al crear el nuevo registro de pago
-  my $pago = $alquiler->add_to_payments({
-    customer_id => $id_cliente, 
-    staff_id => $id_empleado,
-    amount => $monto_pagar,
-    payment_date => $fecha_alquiler,
-  });
-  my $cliente = $alquiler->customer;
-  $cliente->email( $email_cliente_actualizar );
-  $cliente->update;
   say "Transacción realizada exitosamente!";
 }
 catch {
